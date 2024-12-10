@@ -30,10 +30,7 @@ int main() {
       }
     }
     if (first_free >= i) break;
-
-    auto temp = inp[first_free];
-    inp[first_free] = inp[i];
-    inp[i] = temp;
+    swap(inp[first_free], inp[i]);
   }
 
   long long res;
@@ -91,5 +88,6 @@ int main() {
     res2 += i * inp2[i].first;
   }
   cout << "part 2: " << res2 << endl;
+
   return 0;
 }
