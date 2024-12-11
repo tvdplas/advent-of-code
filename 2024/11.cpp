@@ -12,27 +12,24 @@ ll memoized_res(ll inp, int depth_to_go) {
     return mem[p];
   }
 
-  if (depth_to_go == 0) {
-    mem[p] = 1;
-    return 1;
-  }
-
-  if (inp == 0) {
-    auto res = memoized_res(1, depth_to_go - 1);
-    mem[p] = res;
-    return res;
-  }
-
+  ll res;
   string inp_s = to_string(inp);
-  if (inp_s.length() % 2 == 0) {
+
+  if (depth_to_go == 0) {
+    res = 1;
+  }
+  else if (inp == 0) {
+    res = memoized_res(1, depth_to_go - 1);
+  }
+  else if (inp_s.length() % 2 == 0) {
     ll num1 = stoll(inp_s.substr(0, inp_s.length() / 2));
     ll num2 = stoll(inp_s.substr(inp_s.length() / 2, inp_s.length() / 2));
-    auto res = memoized_res(num1, depth_to_go - 1) + memoized_res(num2, depth_to_go - 1);
-    mem[p] = res;
-    return res;
+    res = memoized_res(num1, depth_to_go - 1) + memoized_res(num2, depth_to_go - 1);
+  }
+  else {
+    res = memoized_res(inp * 2024, depth_to_go - 1);
   }
 
-  auto res = memoized_res(inp * 2024, depth_to_go - 1);
   mem[p] = res;
   return res;
 } 
@@ -40,7 +37,6 @@ ll memoized_res(ll inp, int depth_to_go) {
 int main() {
   ifstream file { "./11in.txt" };
   string s;
-  // should be linkedlist
   vec<ll> inp = {};
   getline(file, s);
   istringstream iss(s);
@@ -49,11 +45,14 @@ int main() {
   }
 
   vec<pair<int, ll>> eval_later = {};
-  ll count = 0;
+  ll count1 = 0;
+  ll count2 = 0;
   for (auto x : inp) {
-    count += memoized_res(x, 75); // 25 for part 1
+    count1 += memoized_res(x, 25); // 25 for part 1
+    count2 += memoized_res(x, 75); // 25 for part 1
   }
 
-  cout << "part 1/2: " << count;
+  cout << "part 1: " << count1 << endl;
+  cout << "part 2: " << count2 << endl;
   return 0;
 }
